@@ -50,7 +50,9 @@ export const AuthService = {
         user.hashed_password,
         password,
       );
-      if (!isPasswordValid) throw new NotFoundError("Invalid credentials");
+      if (!isPasswordValid) {
+        throw new UnauthorizedError("Invalid credentials");
+      }
 
       // Create a new session
       const selector = crypto.randomBytes(8).toString("hex");
@@ -60,7 +62,9 @@ export const AuthService = {
 
       // kirim ke client: selector.validator
       const token = `${selector}.${validator}`;
-      const expiredAt = new Date(Date.now() + 1 * 24 * 60 * 60 * 1000); // 1 day
+      const SESSION_DURATION = 60 * 60 * 24 * 7;
+
+      const expiredAt = new Date(Date.now() + SESSION_DURATION * 1000);
       await UserSessionRepositories.create({
         selector,
         validator_hash: validatorHash,

@@ -36,10 +36,10 @@ export function proxy(request: NextRequest) {
     return response;
   }
 
-  // Sudah login tapi akses halaman login → redirect ke dashboard
-  if (isAuthRoute && isLoggedIn) {
-    return NextResponse.redirect(new URL("/dashboard", request.url));
-  }
+  //   // Sudah login tapi akses halaman login → redirect ke dashboard
+  //   if (isAuthRoute && isLoggedIn) {
+  //     return NextResponse.redirect(new URL("/dashboard", request.url));
+  //   }
 
   return NextResponse.next();
 }
